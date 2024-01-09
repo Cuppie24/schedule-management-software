@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jmpEyGuxBf6iCP31eJgXYuXUGbWLzBsoFzJ+ndMbAV3FZjVogKxSOajOrt+hEc+AIjHo/452FCN+I0lB6WJfRg==",
+  "dgSpecHash": "SdinvW/+a4rKoizV9+dfc6MgZJsAmbooyEXMAnjjz/LFJxgu1mWaMT9teSy1cARf9Ub0wym1+kCsnsOi/9d1Bw==",
   "success": true,
-  "projectFilePath": "D:\\dotnet\\My-project\\dotnet_project.csproj",
+  "projectFilePath": "D:\\Projects\\schedule-management-software\\dotnet_project.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

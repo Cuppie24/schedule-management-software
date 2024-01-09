@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\dotnet\\My-project\\dotnet_project.csproj",
+      "projectUniqueName": "D:\\Projects\\schedule-management-software\\dotnet_project.csproj",
       "projectName": "dotnet_project",
-      "projectPath": "D:\\dotnet\\My-project\\dotnet_project.csproj",
+      "projectPath": "D:\\Projects\\schedule-management-software\\dotnet_project.csproj",
       "packagesPath": "C:\\Users\\ishna\\.nuget\\packages\\",
-      "outputPath": "D:\\dotnet\\My-project\\obj\\",
+      "outputPath": "D:\\Projects\\schedule-management-software\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ishna\\AppData\\Roaming\\NuGet\\NuGet.Config",
