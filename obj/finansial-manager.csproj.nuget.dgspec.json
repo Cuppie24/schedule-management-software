@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\schedule-management-software\\dotnet_project.csproj": {}
+    "D:\\Projects\\schedule-management-software\\finansial-manager.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\schedule-management-software\\dotnet_project.csproj": {
+    "D:\\Projects\\schedule-management-software\\finansial-manager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\schedule-management-software\\dotnet_project.csproj",
-        "projectName": "dotnet_project",
-        "projectPath": "D:\\Projects\\schedule-management-software\\dotnet_project.csproj",
+        "projectUniqueName": "D:\\Projects\\schedule-management-software\\finansial-manager.csproj",
+        "projectName": "finansial-manager",
+        "projectPath": "D:\\Projects\\schedule-management-software\\finansial-manager.csproj",
         "packagesPath": "C:\\Users\\ishna\\.nuget\\packages\\",
         "outputPath": "D:\\Projects\\schedule-management-software\\obj\\",
         "projectStyle": "PackageReference",
@@ -43,6 +43,10 @@
             "CsvHelper": {
               "target": "Package",
               "version": "[30.0.1, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.6.6, )"
             }
           },
           "imports": [

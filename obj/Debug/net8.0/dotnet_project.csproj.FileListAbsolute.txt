@@ -41,3 +41,6 @@ D:\Projects\schedule-management-software\bin\Debug\net8.0\dotnet_project.dll
 D:\Projects\schedule-management-software\bin\Debug\net8.0\dotnet_project.pdb
 D:\Projects\schedule-management-software\obj\Debug\net8.0\dotnet_project.genruntimeconfig.cache
 D:\Projects\schedule-management-software\obj\Debug\net8.0\ref\dotnet_project.dll
+D:\Projects\schedule-management-software\bin\Debug\net8.0\CsvHelper.dll
+D:\Projects\schedule-management-software\obj\Debug\net8.0\dotnet_project.csproj.AssemblyReference.cache
+D:\Projects\schedule-management-software\obj\Debug\net8.0\dotnet_project.csproj.CopyComplete
