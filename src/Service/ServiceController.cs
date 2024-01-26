@@ -7,7 +7,7 @@ public class ServiceController : IServiceController
 {
     private const string OperationsFilePath = @"D:\Projects\schedule-management-software\Source\Recourses\Operations.csv";
 
-    public void AddOperation(double amount, Operation.Categories categories, bool income)
+    public static void AddOperation(double amount, Operation.Categories categories, bool income)
     {
         string id = GenerateId();
         var dummy = new Operation()
@@ -21,11 +21,19 @@ public class ServiceController : IServiceController
         DtoController.Add(OperationsFilePath, dummy);
     }
 
-    public void GetStatisticsFor(DateTime dateTime)
+    public static List<Operation> GetOperationsFor(string path, DateTime dateTime)
     {
+        var resultList = new List<Operation>();
+        List<Operation> operations = DtoController.FetchAll(path);
+        foreach (var variable in operations)
+        {
+            if(variable.DateTime.Year.Equals(dateTime.Year) && variable.DateTime.Month.Equals(dateTime.Month))
+                resultList.Add(variable);
+        }
+        return resultList;
     }
 
-    private string GenerateId()
+    private static string GenerateId()
     {
         var guid = Guid.NewGuid();
         return guid.ToString("N");

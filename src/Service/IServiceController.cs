@@ -4,6 +4,6 @@ namespace dotnet_project.src.Service;
 
 public interface IServiceController
 {
-    void AddOperation(double amount, Operation.Categories categories, bool income);
-    void GetStatisticsFor(DateTime dateTime);
+    static abstract void AddOperation(double amount, Operation.Categories categories, bool income);
+    static abstract List<Operation> GetOperationsFor(string path, DateTime dateTime);
 }
