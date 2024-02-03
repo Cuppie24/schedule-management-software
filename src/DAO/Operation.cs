@@ -1,14 +1,14 @@
 ﻿using System.Text;
 
-namespace dotnet_project.src.DAO;
+namespace dotnet_project.DAO;
 
 public class Operation
 {
-    private string? _id;
-    private double _amount;
-    private bool _income;
-    private DateTime _dateTime;
-    private Categories _category = Categories.Indefined;
+    public string? Id { get; init; }
+    public double Amount { get; set; }
+    public bool Income { get; set; }
+    public DateTime DateTime { get; set; }
+    public Categories Category { get; set; } = Categories.Undefined;
 
     public Operation(string id, double amount, bool income, DateTime dateTime, Categories categories)
     {
@@ -18,34 +18,15 @@ public class Operation
         Income = income;
         DateTime = dateTime;
     }
+    public Operation(double amount, bool income, DateTime dateTime, Categories categories)
+    {
+        Category = categories;
+        Amount = amount;
+        Income = income;
+        DateTime = dateTime;
+    }
     public Operation()
     {
-    }
-
-    public string? Id
-    {
-        get => _id;
-        set => _id = value;
-    }
-    public double Amount
-    {
-        get => _amount;
-        set => _amount = value;
-    }
-    public bool Income
-    {
-        get => _income;
-        set => _income = value;
-    }
-    public DateTime DateTime
-    {
-        get => _dateTime;
-        set => _dateTime = value;
-    }
-    public Categories Category
-    {
-        get => _category;
-        set => _category = value;
     }
     
     public enum Categories
@@ -56,15 +37,13 @@ public class Operation
         Food,
         Cloth,
         Entertainment,
-        Indefined
+        Undefined
     }
     public void Print()
     {
-        var output = new StringBuilder();
-        output.Append($"Id: {Id}; ");
-        output.Append($"Category: {Category}; ");
-        output.Append($"Amount: {Amount}; ");
-        output.Append($"Income: {Income}; ");
-        output.Append($"Date time: {DateTime}; ");
+        Console.WriteLine(Income? "Top-up: ": "Purchase: ");
+        Console.Write($"Amount: {Amount} " +
+                          $"Date time: {DateTime} ");
+        if(!Income) Console.Write($"Category: {Category} ");
     }
 }

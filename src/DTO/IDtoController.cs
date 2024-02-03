@@ -1,12 +1,15 @@
-﻿using dotnet_project.src.DAO;
+﻿using dotnet_project.DAO;
 
-namespace dotnet_project.src.DTO;
+namespace dotnet_project.DTO;
 
-public interface IDtoController <T>
+public interface IDtoController<T>
 {
-    static abstract List<T> FetchAll(string path);
-    static abstract List<T> FetchFiltered(string path, int index, string value);
-    static abstract List<T> FetchFiltered(List<T> listToFilter, int index, string value);
-    static abstract void Add(string path, Operation operationToAdd);
-    static abstract void PrintAll(List<T> listToPrint);
+    List<T> FetchAll(string path);
+    List<T> FetchFiltered(string path, int index, string value);
+    List<T> FetchFiltered(List<T> listToFilter, int index, string value);
+    void Add(string path, Operation operationToAdd);
+    bool Remove(string path, string index);
+    double GetBalance(string path);
+    void SetBalance(string path, double value);
+    void PrintList(List<T> listToPrint);
 }

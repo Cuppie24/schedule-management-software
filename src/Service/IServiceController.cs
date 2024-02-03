@@ -1,9 +1,13 @@
-﻿using dotnet_project.src.DAO;
+﻿using dotnet_project.DAO;
 
-namespace dotnet_project.src.Service;
+namespace dotnet_project.Service;
 
 public interface IServiceController
 {
-    static abstract void AddOperation(double amount, Operation.Categories categories, bool income);
-    static abstract List<Operation> GetOperationsFor(string path, DateTime dateTime);
+    void AddNewOperation(string path ,double amount, Operation.Categories categories, bool income);
+    void AddNewOperation(string path ,double amount, bool income);
+    bool RemoveOperation(string path, string id);
+    List<Operation> FetchOperationsFor(string path, int year, int month);
+    double GetBalance(string path);
+    void SetBalance(string path, double value);
 }

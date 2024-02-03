@@ -1,38 +1,61 @@
-﻿using dotnet_project.src.DAO;
-using dotnet_project.src.DTO;
+﻿using dotnet_project.DAO;
+using dotnet_project.DTO;
 
-namespace dotnet_project.src.Service;
+namespace dotnet_project.Service;
 
 public class ServiceController : IServiceController
 {
-    private const string OperationsFilePath = @"D:\Projects\schedule-management-software\Source\Recourses\Operations.csv";
-
-    public static void AddOperation(double amount, Operation.Categories categories, bool income)
+    private IDtoController<Operation> _OperationsDtoController = new DtoController();
+    public void AddNewOperation(string path ,double amount, Operation.Categories category, bool income)
     {
-        string id = GenerateId();
+        var id = GenerateId();
         var dummy = new Operation()
         {
             Id = id,
             Amount = amount,
             Income = income,
             DateTime = DateTime.Now,
-            Category = categories
+            Category = category
         };
-        DtoController.Add(OperationsFilePath, dummy);
+        _OperationsDtoController.Add(path, dummy);
     }
-
-    public static List<Operation> GetOperationsFor(string path, DateTime dateTime)
+    
+    public void AddNewOperation(string path ,double amount, bool income)
+    {
+        var id = GenerateId();
+        var dummy = new Operation()
+        {
+            Id = id,
+            Amount = amount,
+            Income = income,
+            DateTime = DateTime.Now,
+            Category = Operation.Categories.Undefined
+        };
+        _OperationsDtoController.Add(path, dummy);
+    }
+    
+    public bool RemoveOperation(string path, string id) => _OperationsDtoController.Remove(path, id);
+    public double GetBalance(string path) => _OperationsDtoController.GetBalance(path);
+    public void SetBalance(string path, double value) => _OperationsDtoController.SetBalance(path, value);
+    
+    public List<Operation> FetchOperationsFor(string path, int year, int month)
+    {
+        var operations = _OperationsDtoController.FetchAll(path);
+        var resultList = FilterByYearAndMonth(operations, year, month);
+        return resultList;
+    }
+    
+    private  List<Operation> FilterByYearAndMonth(List<Operation> operations, int year, int month)
     {
         var resultList = new List<Operation>();
-        List<Operation> operations = DtoController.FetchAll(path);
         foreach (var variable in operations)
         {
-            if(variable.DateTime.Year.Equals(dateTime.Year) && variable.DateTime.Month.Equals(dateTime.Month))
+            if(variable.DateTime.Year.Equals(year) && variable.DateTime.Month.Equals(month))
                 resultList.Add(variable);
         }
         return resultList;
     }
-
+    
     private static string GenerateId()
     {
         var guid = Guid.NewGuid();
