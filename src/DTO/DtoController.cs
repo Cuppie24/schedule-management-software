@@ -111,10 +111,6 @@ public class DtoController : IDtoController<Operation>
 
             if (!operationExists) return operationExists;
         }
-
-        var balance = GetBalance(path);
-        SetBalance(path,balance + amount);
-        
         // rewrite file without deleted id
         using (var streamWriter = new StreamWriter(path))
         {
@@ -131,6 +127,8 @@ public class DtoController : IDtoController<Operation>
                 streamWriter.WriteLine(line);
             }
         }
+        var balance = GetBalance(path);
+        SetBalance(path,balance + amount);
         return operationExists;
     }
 
@@ -158,9 +156,7 @@ public class DtoController : IDtoController<Operation>
                 }
             }
         }
-
-        double balance = GetBalance(path);
-        SetBalance(path,balance - balanceDifference);
+        
         // rewrite file with updated line
         using (var streamWriter = new StreamWriter(path))
         {
@@ -177,6 +173,8 @@ public class DtoController : IDtoController<Operation>
                 streamWriter.WriteLine(line);
             }
         }
+        double balance = GetBalance(path);
+        SetBalance(path,balance - balanceDifference);
     }
 
     public  double GetBalance(string path)
