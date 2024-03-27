@@ -169,13 +169,14 @@ public class Controller
         while (true)
         {
             PrintOperationsForCurrentMonth();
-            Console.WriteLine("Enter the index of operation you want to edit: ");
+            Console.WriteLine("\nEnter the index of operation you want to edit: ");
             if (Int32.TryParse(Console.ReadLine(), out var indexOfEditingOperation))
             {
                 Console.WriteLine(operations[indexOfEditingOperation - 1].ToString());
                 Console.WriteLine("What parameter do you want to change ?\r\n" +
                                   "1 - amount\n" +
-                                  "2 - category\n");
+                                  "2 - category\n" +
+                                  "3 - delete operation");
                 var input = Console.ReadLine();
                 switch (input)
                 {
@@ -207,6 +208,9 @@ public class Controller
                             continue;
                         }
                         _serviceController.EditOperation(FilePath, operations[indexOfEditingOperation - 1].Id, operations[indexOfEditingOperation - 1] with {Category = category} );
+                        return;
+                    case "3":
+                        _serviceController.RemoveOperation(FilePath, operations[indexOfEditingOperation - 1].Id);
                         return;
                     default:
                         Console.WriteLine("Incorrect input");

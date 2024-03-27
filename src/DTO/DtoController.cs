@@ -87,6 +87,7 @@ public class DtoController : IDtoController<Operation>
     {
         // indexes of values in csv file
         int amountIndex = 1, incomeIndex = 2;
+        double amount = 0;
         List<string[]> stringList = [];
         var operationExists = false; // for return
         // read csv file and remove line with id
@@ -96,20 +97,12 @@ public class DtoController : IDtoController<Operation>
             {
                 stringList.Add(line.Split(Delimiter));
             }
-
             
             for (var i = 0; i < stringList.Count; i++)
             {
                 if (stringList.ElementAt(i)[0].Equals(id))
                 {
-                    // update balance
-                    double balance = GetBalance(path);
-                    if (double.TryParse(stringList.ElementAt(i)[amountIndex], out var amount))
-                    {
-                        SetBalance(path,
-                            stringList.ElementAt(i)[incomeIndex].Equals("0") ? balance + amount : balance - amount);
-                    }
-                    else throw new InvalidOperationException("Failed to parse amount from file");
+                    amount = Convert.ToDouble(stringList[i][amountIndex]);
                     //remove operation
                     stringList.RemoveAt(i);
                     operationExists = true;
@@ -118,6 +111,10 @@ public class DtoController : IDtoController<Operation>
 
             if (!operationExists) return operationExists;
         }
+
+        var balance = GetBalance(path);
+        SetBalance(path,balance + amount);
+        
         // rewrite file without deleted id
         using (var streamWriter = new StreamWriter(path))
         {
@@ -141,6 +138,7 @@ public class DtoController : IDtoController<Operation>
     {
         // indexes of values in csv file
         int amountIndex = 1, incomeIndex = 2;
+        double balanceDifference = 0;
         List<string[]> stringList = [];
         // read csv file and edit line with id
         using (var streamReader = new StreamReader(path))
@@ -155,27 +153,14 @@ public class DtoController : IDtoController<Operation>
             {
                 if (stringList.ElementAt(i)[0].Equals(id))
                 {
-                    // remove amount from balance
-                    double balance = GetBalance(path);
-                    if (double.TryParse(stringList.ElementAt(i)[amountIndex], out var amount))
-                    {
-                        SetBalance(path,
-                            stringList.ElementAt(i)[incomeIndex].Equals("0") ? balance + amount : balance - amount);
-                    }
-                    else throw new InvalidOperationException("Failed to parse amount from file");
-                    // update line
+                    balanceDifference = Convert.ToDouble(stringList[i][amountIndex]) - newOperation.Amount;
                     stringList[i] = GetStringFromDao(newOperation).Split(Delimiter);
-                    // set new balance
-                    if (double.TryParse(stringList[i][amountIndex], out var newAmount))
-                    {
-                        if (stringList[i][incomeIndex] == "1")
-                            SetBalance(path, GetBalance(path) + newAmount);
-                        else 
-                            SetBalance(path, GetBalance(path) - newAmount);
-                    }
                 }
             }
         }
+
+        double balance = GetBalance(path);
+        SetBalance(path,balance - balanceDifference);
         // rewrite file with updated line
         using (var streamWriter = new StreamWriter(path))
         {

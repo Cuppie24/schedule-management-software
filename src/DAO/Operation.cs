@@ -16,13 +16,6 @@ public record class Operation
         Income = income;
         DateTime = dateTime;
     }
-    // public Operation(double amount, bool income, DateTime dateTime, Categories categories)
-    // {
-    //     Category = categories;
-    //     Amount = amount;
-    //     Income = income;
-    //     DateTime = dateTime;
-    // }
     public Operation()
     {
     }
@@ -42,7 +35,6 @@ public record class Operation
         string output = Income ? "Top-up - " : "Purchase: - ";
         output += ($"Amount: {Amount} Date time: {DateTime} ");
         if(!Income) output += ($"Category: {Category} ");
-        output += $"ID: {Id}";
         return output;
     }
 }
