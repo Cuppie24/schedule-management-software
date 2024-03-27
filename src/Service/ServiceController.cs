@@ -5,7 +5,7 @@ namespace dotnet_project.Service;
 
 public class ServiceController : IServiceController
 {
-    private IDtoController<Operation> _OperationsDtoController = new DtoController();
+    private IDtoController<Operation> _operationsDtoController = new DtoController();
     public void AddNewOperation(string path ,double amount, Operation.Categories category, bool income)
     {
         var id = GenerateId();
@@ -17,7 +17,7 @@ public class ServiceController : IServiceController
             DateTime = DateTime.Now,
             Category = category
         };
-        _OperationsDtoController.Add(path, dummy);
+        _operationsDtoController.Add(path, dummy);
     }
     
     public void AddNewOperation(string path ,double amount, bool income)
@@ -31,16 +31,18 @@ public class ServiceController : IServiceController
             DateTime = DateTime.Now,
             Category = Operation.Categories.Undefined
         };
-        _OperationsDtoController.Add(path, dummy);
+        _operationsDtoController.Add(path, dummy);
     }
     
-    public bool RemoveOperation(string path, string id) => _OperationsDtoController.Remove(path, id);
-    public double GetBalance(string path) => _OperationsDtoController.GetBalance(path);
-    public void SetBalance(string path, double value) => _OperationsDtoController.SetBalance(path, value);
+    public bool RemoveOperation(string path, string id) => _operationsDtoController.Remove(path, id);
+    public void EditOperation(string path, string id, Operation operation) => _operationsDtoController.Edit(path, id, operation);
+
+    public double GetBalance(string path) => _operationsDtoController.GetBalance(path);
+    public void SetBalance(string path, double value) => _operationsDtoController.SetBalance(path, value);
     
     public List<Operation> FetchOperationsFor(string path, int year, int month)
     {
-        var operations = _OperationsDtoController.FetchAll(path);
+        var operations = _operationsDtoController.FetchAll(path);
         var resultList = FilterByYearAndMonth(operations, year, month);
         return resultList;
     }

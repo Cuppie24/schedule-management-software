@@ -8,7 +8,7 @@ namespace dotnet_project.DTO;
 public class DtoController : IDtoController<Operation>
 {
     private const string Delimiter = ",";
-    private const int StartingLineNumber = 3;
+    private const int StartLineNumber = 3;
     
     public  List<Operation> FetchAll(string path)
     {
@@ -21,7 +21,7 @@ public class DtoController : IDtoController<Operation>
         }
 
         // ignoring unnecessary leading lines
-        for (var i = 0; i < StartingLineNumber; i++)
+        for (var i = 0; i < StartLineNumber; i++)
         {
             stringArrayList.RemoveAt(i);
         }
@@ -39,7 +39,7 @@ public class DtoController : IDtoController<Operation>
         }
 
         // ignoring unnecessary leading lines
-        for (var i = 0; i < StartingLineNumber; i++)
+        for (var i = 0; i < StartLineNumber; i++)
         {
             stringArrayList.RemoveAt(i);
         }
@@ -79,8 +79,7 @@ public class DtoController : IDtoController<Operation>
         
         //set new balance
         var balance = GetBalance(path);
-        if (operationToAdd.Income) balance += operationToAdd.Amount;
-        else balance -= operationToAdd.Amount;
+        balance = operationToAdd.Income ? balance += operationToAdd.Amount : balance -= operationToAdd.Amount;
         SetBalance(path, balance);
     }
 
@@ -89,6 +88,7 @@ public class DtoController : IDtoController<Operation>
         // indexes of values in csv file
         int amountIndex = 1, incomeIndex = 2;
         List<string[]> stringList = [];
+        var operationExists = false; // for return
         // read csv file and remove line with id
         using (var streamReader = new StreamReader(path))
         {
@@ -97,7 +97,7 @@ public class DtoController : IDtoController<Operation>
                 stringList.Add(line.Split(Delimiter));
             }
 
-            var operationExists = false; // for return
+            
             for (var i = 0; i < stringList.Count; i++)
             {
                 if (stringList.ElementAt(i)[0].Equals(id))
@@ -116,7 +116,7 @@ public class DtoController : IDtoController<Operation>
                 }
             }
 
-            return operationExists;
+            if (!operationExists) return operationExists;
         }
         // rewrite file without deleted id
         using (var streamWriter = new StreamWriter(path))
@@ -134,7 +134,64 @@ public class DtoController : IDtoController<Operation>
                 streamWriter.WriteLine(line);
             }
         }
-        return true;
+        return operationExists;
+    }
+
+    public void Edit(string path, string id, Operation newOperation)
+    {
+        // indexes of values in csv file
+        int amountIndex = 1, incomeIndex = 2;
+        List<string[]> stringList = [];
+        // read csv file and edit line with id
+        using (var streamReader = new StreamReader(path))
+        {
+            while (streamReader.ReadLine() is { } line)
+            {
+                stringList.Add(line.Split(Delimiter));
+            }
+
+            
+            for (var i = 0; i < stringList.Count; i++)
+            {
+                if (stringList.ElementAt(i)[0].Equals(id))
+                {
+                    // remove amount from balance
+                    double balance = GetBalance(path);
+                    if (double.TryParse(stringList.ElementAt(i)[amountIndex], out var amount))
+                    {
+                        SetBalance(path,
+                            stringList.ElementAt(i)[incomeIndex].Equals("0") ? balance + amount : balance - amount);
+                    }
+                    else throw new InvalidOperationException("Failed to parse amount from file");
+                    // update line
+                    stringList[i] = GetStringFromDao(newOperation).Split(Delimiter);
+                    // set new balance
+                    if (double.TryParse(stringList[i][amountIndex], out var newAmount))
+                    {
+                        if (stringList[i][incomeIndex] == "1")
+                            SetBalance(path, GetBalance(path) + newAmount);
+                        else 
+                            SetBalance(path, GetBalance(path) - newAmount);
+                    }
+                }
+            }
+        }
+        // rewrite file with updated line
+        using (var streamWriter = new StreamWriter(path))
+        {
+            foreach (var separatedLine in stringList)
+            {
+                string line = "";
+                // build line from string array with separator ";"
+                for (int i = 0; i < separatedLine.Length; i++)
+                {
+                    line += separatedLine[i];
+                    if (i != separatedLine.Length - 1) line += Delimiter;
+                }
+                
+                streamWriter.WriteLine(line);
+            }
+        }
     }
 
     public  double GetBalance(string path)
@@ -146,7 +203,7 @@ public class DtoController : IDtoController<Operation>
         throw new InvalidOperationException("Failed to parse balance from file");
     }
 
-    public  void SetBalance(string path ,double value)
+    public void SetBalance(string path ,double value)
     {
         List<string> lines = [];
         using (var streamReader = new StreamReader(path))
@@ -161,14 +218,6 @@ public class DtoController : IDtoController<Operation>
         foreach (var line in lines)
         {
             streamWriter.WriteLine(line);
-        }
-    }
-
-    public  void PrintList(List<Operation> listToPrint)
-    {
-        foreach (Operation user in listToPrint)
-        {
-            user.Print();
         }
     }
 
@@ -188,7 +237,7 @@ public class DtoController : IDtoController<Operation>
         return resultDaoList;
     }
 
-    private static string GetStringFromDao(Operation operation) // сделать так чтобы он возвращал массив строк разделенный delimiter
+    private static string GetStringFromDao(Operation operation) 
     {
         var line = new StringBuilder();
         line.Append(operation.Id + ","); //id

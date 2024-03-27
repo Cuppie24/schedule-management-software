@@ -10,7 +10,6 @@ D:\Projects\schedule-management-software\obj\Debug\net8.0\finansial-manager.Asse
 D:\Projects\schedule-management-software\obj\Debug\net8.0\finansial-manager.AssemblyInfo.cs
 D:\Projects\schedule-management-software\obj\Debug\net8.0\finansial-manager.csproj.CoreCompileInputs.cache
 D:\Projects\schedule-management-software\obj\Debug\net8.0\finansial-manager.sourcelink.json
-D:\Projects\schedule-management-software\obj\Debug\net8.0\finansial-manager.csproj.CopyComplete
 D:\Projects\schedule-management-software\obj\Debug\net8.0\finansial-manager.dll
 D:\Projects\schedule-management-software\obj\Debug\net8.0\refint\finansial-manager.dll
 D:\Projects\schedule-management-software\obj\Debug\net8.0\finansial-manager.pdb
@@ -20,3 +19,4 @@ D:\Projects\schedule-management-software\bin\Debug\net8.0\xunit.abstractions.dll
 D:\Projects\schedule-management-software\bin\Debug\net8.0\xunit.assert.dll
 D:\Projects\schedule-management-software\bin\Debug\net8.0\xunit.core.dll
 D:\Projects\schedule-management-software\bin\Debug\net8.0\xunit.execution.dotnet.dll
+D:\Projects\schedule-management-software\obj\Debug\net8.0\finansia.125B26C7.Up2Date

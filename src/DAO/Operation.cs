@@ -1,10 +1,8 @@
-﻿using System.Text;
+﻿namespace dotnet_project.DAO;
 
-namespace dotnet_project.DAO;
-
-public class Operation
+public record class Operation
 {
-    public string? Id { get; init; }
+    public string Id { get; init; }
     public double Amount { get; set; }
     public bool Income { get; set; }
     public DateTime DateTime { get; set; }
@@ -18,13 +16,13 @@ public class Operation
         Income = income;
         DateTime = dateTime;
     }
-    public Operation(double amount, bool income, DateTime dateTime, Categories categories)
-    {
-        Category = categories;
-        Amount = amount;
-        Income = income;
-        DateTime = dateTime;
-    }
+    // public Operation(double amount, bool income, DateTime dateTime, Categories categories)
+    // {
+    //     Category = categories;
+    //     Amount = amount;
+    //     Income = income;
+    //     DateTime = dateTime;
+    // }
     public Operation()
     {
     }
@@ -39,11 +37,12 @@ public class Operation
         Entertainment,
         Undefined
     }
-    public void Print()
+    public override string ToString()
     {
-        Console.WriteLine(Income? "Top-up: ": "Purchase: ");
-        Console.Write($"Amount: {Amount} " +
-                          $"Date time: {DateTime} ");
-        if(!Income) Console.Write($"Category: {Category} ");
+        string output = Income ? "Top-up - " : "Purchase: - ";
+        output += ($"Amount: {Amount} Date time: {DateTime} ");
+        if(!Income) output += ($"Category: {Category} ");
+        output += $"ID: {Id}";
+        return output;
     }
 }
